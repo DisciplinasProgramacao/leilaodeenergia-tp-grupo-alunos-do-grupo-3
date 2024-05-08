@@ -7,8 +7,6 @@ Escreva um ou dois parágrafos resumindo o objetivo do seu projeto.
 * Laura Lourdes
 * Marcio Lucas
 * Pedro Motta
-* Nome completo do aluno 4
-* Nome completo do aluno 4
 
 ## Professores responsáveis
 
