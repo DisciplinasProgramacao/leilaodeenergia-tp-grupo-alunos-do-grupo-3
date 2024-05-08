@@ -3,13 +3,12 @@ Escreva um ou dois parágrafos resumindo o objetivo do seu projeto.
 
 ## Alunos integrantes da equipe
 
-* Ian Asenjo
-* Laura Lourdes
-* Marcio Lucas
-* Pedro Motta
+* Ian Asenjo Dominguez Cunha
+* Laura Lourdes Coutinho Rodrigues
+* Marcio Lucas Machado Pereira
+* Pedro de Sousa Motta
 
-## Professores responsáveis
+## Professor responsável
 
-* Nome completo do professor 1
-* Nome completo do professor 2
+* João Caram Santos de Oliveira
 
