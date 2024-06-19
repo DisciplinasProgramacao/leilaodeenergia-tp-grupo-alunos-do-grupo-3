@@ -1,5 +1,10 @@
-# Nome do projeto
-Escreva um ou dois parágrafos resumindo o objetivo do seu projeto.
+# Projeto Energy Auction
+
+## Descrição
+
+Este projeto visa resolver o problema de maximizar os lucros da venda de energia para empresas interessadas. Várias abordagens algorítmicas são utilizadas, incluindo backtracking, algoritmos gulosos, divisão e conquista, e programação dinâmica.
+
+## Estrutura do Projeto
 
 ## Alunos integrantes da equipe
 
