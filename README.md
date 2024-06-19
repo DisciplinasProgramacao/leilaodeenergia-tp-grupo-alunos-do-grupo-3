@@ -2,12 +2,14 @@
 
 ## Descrição
 
-Este projeto visa resolver o problema de maximizar os lucros da venda de energia para empresas interessadas. Várias abordagens algorítmicas são utilizadas, incluindo backtracking, algoritmos gulosos, divisão e conquista, e programação dinâmica.
+Este projeto visa resolver o problema de maximizar os lucros da venda de energia para empresas interessadas.Foi utilizado backtracking, algoritmos gulosos, divisão e conquista, e programação dinâmica.
 
 ## Estrutura do Projeto
 
 energy-auction-project/
+
 ├── data/
+
 │   ├── generar_conjuntos.py
 ├── algorithms/
 │   ├── backtracking.py
