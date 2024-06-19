@@ -17,6 +17,8 @@ energy-auction-project/
 ├── tests/
 │   ├── test_algorithms.py
 ├── main.py
+├── requirements.txt
+├── README.md
 
 ## Alunos integrantes da equipe
 
