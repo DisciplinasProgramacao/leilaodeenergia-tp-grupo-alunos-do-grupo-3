@@ -10,17 +10,24 @@ energy-auction-project/
 
 ├── data/
 
-│   ├── generar_conjuntos.py
-├── algorithms/
+│   ├── gerar_conjuntos.py
+
+├── algoritmos/
+
 │   ├── backtracking.py
-│   ├── greedy.py
-│   ├── divide_and_conquer.py
-│   ├── dynamic_programming.py
-├── tests/
+
+│   ├── guloso.py
+
+│   ├── divisão_conquista.py
+
+│   ├── programação_dinamica.py
+
+├── testes/
+
 │   ├── test_algorithms.py
+
 ├── main.py
-├── requirements.txt
-├── README.md
+
 
 ## Alunos integrantes da equipe
 
