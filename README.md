@@ -6,6 +6,18 @@ Este projeto visa resolver o problema de maximizar os lucros da venda de energia
 
 ## Estrutura do Projeto
 
+energy-auction-project/
+├── data/
+│   ├── generar_conjuntos.py
+├── algorithms/
+│   ├── backtracking.py
+│   ├── greedy.py
+│   ├── divide_and_conquer.py
+│   ├── dynamic_programming.py
+├── tests/
+│   ├── test_algorithms.py
+├── main.py
+
 ## Alunos integrantes da equipe
 
 * Ian Asenjo Dominguez Cunha
