@@ -1,4 +1,4 @@
-def dp_solution(lances, energia_disponivel):
+def prog_dinamica(lances, energia_disponivel):
     dp = [0] * (energia_disponivel + 1)
     for mw, valor in lances:
         for i in range(energia_disponivel, mw - 1, -1):

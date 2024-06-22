@@ -3,32 +3,25 @@ import os
 import time
 import threading
 
-sys.setrecursionlimit(10000)  # Aumentando o limite de profundidade de recursão
+sys.setrecursionlimit(5000)
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from data.gerar_conjuntos import gerar_conjuntos
 from algoritmos.backtraking import backtracking
-from algoritmos.guloso import greedy_max_value, greedy_max_value_per_mw
-from algoritmos.divisão_conquista import divide_and_conquer
-from algoritmos.programação_dinamica import dp_solution
+from algoritmos.guloso import guloso_maior_valor, guloso_maior_valor_por_megawatts
+from algoritmos.divisão_conquista import divisao_conquista
+from algoritmos.programação_dinamica import prog_dinamica
 
 def ler_conjunto_empresas(entrada):
     linhas = entrada.strip().split("\n")
     lances = []
     for linha in linhas:
         partes = linha.split(";")
-        if len(partes) != 3:
-            print(f"Erro ao processar a linha: {linha}")
-            continue
-        try:
-            nome = partes[0]
-            quantidade = int(partes[1])
-            valor = int(partes[2])
-            lances.append((quantidade, valor))
-        except ValueError as e:
-            print(f"Erro ao converter valores na linha: {linha}\nErro: {e}")
-            continue
+        nome = partes[0]
+        quantidade = int(partes[1])
+        valor = int(partes[2])
+        lances.append((quantidade, valor))
     return lances
 
 conjunto_empresas_1 = """
@@ -116,46 +109,49 @@ energia_disponivel = 8000
 
 def medir_tempo_algoritmos(lances, energia_disponivel):
     inicio = time.time()
-    resultado_guloso1 = greedy_max_value(lances, energia_disponivel)
+    resultado_guloso1 = guloso_maior_valor(lances, energia_disponivel)
     fim = time.time()
     tempo_guloso1 = fim - inicio
 
     inicio = time.time()
-    resultado_guloso2 = greedy_max_value_per_mw(lances, energia_disponivel)
+    resultado_guloso2 = guloso_maior_valor_por_megawatts(lances, energia_disponivel)
     fim = time.time()
     tempo_guloso2 = fim - inicio
 
     return (resultado_guloso1, tempo_guloso1), (resultado_guloso2, tempo_guloso2)
 
 def medir_tempo_backtracking(lances, energia_disponivel, timeout=30):
-    def worker():
-        nonlocal resultado
-        resultado = backtracking(lances, energia_disponivel)
+    melhor_resultado = [0] 
     
-    resultado = None
+    def worker():
+        nonlocal melhor_resultado
+        resultado = backtracking(lances, energia_disponivel)
+        melhor_resultado[0] = resultado if resultado is not None else 0
+    
     thread = threading.Thread(target=worker)
     thread.start()
     thread.join(timeout)
+    
     if thread.is_alive():
         print("Backtracking interrompido após tempo limite!")
-    return resultado
+        thread.join()
+    
+    return melhor_resultado[0]
 
 def medir_tempo_dc_pd(lances, energia_disponivel):
-    memo = {}
     inicio = time.time()
-    resultado_dc = divide_and_conquer(lances, energia_disponivel, memo)
+    resultado_dc = divisao_conquista(lances, energia_disponivel)
     fim = time.time()
     tempo_dc = fim - inicio
 
     inicio = time.time()
-    resultado_pd = dp_solution(lances, energia_disponivel)
+    resultado_pd = prog_dinamica(lances, energia_disponivel)
     fim = time.time()
     tempo_pd = fim - inicio
 
     return (resultado_dc, tempo_dc), (resultado_pd, tempo_pd)
 
 def main():
-    # Ler os conjuntos fornecidos
     conjunto_1 = ler_conjunto_empresas(conjunto_empresas_1)
     conjunto_2 = ler_conjunto_empresas(conjunto_empresas_2)
 
@@ -167,22 +163,19 @@ def main():
 
         print(f"\nExecutando testes para o {conjunto_nome}\n")
 
-        # Algoritmos Gulosos
+        # Gulosos
         (resultado_guloso1, tempo_guloso1), (resultado_guloso2, tempo_guloso2) = medir_tempo_algoritmos(conjunto, energia_disponivel)
         resultados[conjunto_nome]['Guloso (Maior Valor)'] = (resultado_guloso1, tempo_guloso1)
         resultados[conjunto_nome]['Guloso (Maior Valor por MW)'] = (resultado_guloso2, tempo_guloso2)
         print(f"Guloso (Maior Valor) -> Resultado: {resultado_guloso1}, Tempo: {tempo_guloso1:.2f}s")
         print(f"Guloso (Maior Valor por MW) -> Resultado: {resultado_guloso2}, Tempo: {tempo_guloso2:.2f}s")
 
-        # Programação Dinâmica
-        (resultado_pd, tempo_pd) = medir_tempo_dc_pd(conjunto, energia_disponivel)[1]
-        resultados[conjunto_nome]['Programação Dinâmica'] = (resultado_pd, tempo_pd)
-        print(f"Programação Dinâmica -> Resultado: {resultado_pd}, Tempo: {tempo_pd:.2f}s")
-
-        # Divisão e Conquista
-        (resultado_dc, tempo_dc) = medir_tempo_dc_pd(conjunto, energia_disponivel)[0]
+        # Programação Dinâmica e Divisão e Conquista
+        (resultado_dc, tempo_dc), (resultado_pd, tempo_pd) = medir_tempo_dc_pd(conjunto, energia_disponivel)
         resultados[conjunto_nome]['Divisão e Conquista'] = (resultado_dc, tempo_dc)
+        resultados[conjunto_nome]['Programação Dinâmica'] = (resultado_pd, tempo_pd)
         print(f"Divisão e Conquista -> Resultado: {resultado_dc}, Tempo: {tempo_dc:.2f}s")
+        print(f"Programação Dinâmica -> Resultado: {resultado_pd}, Tempo: {tempo_pd:.2f}s")
 
         # Backtracking
         inicio = time.time()
@@ -192,10 +185,8 @@ def main():
         resultados[conjunto_nome]['Backtracking'] = (resultado_backtracking, tempo_backtracking)
         print(f"Backtracking -> Resultado: {resultado_backtracking}, Tempo: {tempo_backtracking:.2f}s")
 
-    # Adicionando a mensagem de conclusão dos testes
     print("\nTodos os testes foram concluídos com sucesso!\n")
 
-    # Resumo dos resultados
     print("\nResumo dos Resultados:\n")
     for conjunto, res in resultados.items():
         print(f"{conjunto}:")

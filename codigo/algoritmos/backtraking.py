@@ -1,5 +1,11 @@
+import time
+
 def backtracking(lances, energia_disponivel):
-    def solver(posicao, energia_restante):
+    start_time = time.time()
+
+    def resultado(posicao, energia_restante):
+        if time.time() - start_time > 30:
+            return 0
         if posicao >= len(lances):
             return 0
         if energia_restante <= 0:
@@ -7,10 +13,10 @@ def backtracking(lances, energia_disponivel):
 
         lance = lances[posicao]
         if lance[0] > energia_restante:
-            return solver(posicao + 1, energia_restante)  # Pular lances B se não couber
+            return resultado(posicao + 1, energia_restante)
 
-        incluir = lance[1] + solver(posicao + 1, energia_restante - lance[0])
-        nao_incluir = solver(posicao + 1, energia_restante)
+        incluir = lance[1] + resultado(posicao + 1, energia_restante - lance[0])
+        nao_incluir = resultado(posicao + 1, energia_restante)
 
         return max(incluir, nao_incluir)
 
@@ -18,6 +24,7 @@ def backtracking(lances, energia_disponivel):
     for i, lance in enumerate(lances):
         print(f"Lance {i}: {lance[0]}, {lance[1]} dinheiros")
 
-    resultado = solver(0, energia_disponivel)
-    print(f"Valor máximo obtido por backtracking: {resultado}\n")
-    return resultado
+    valor_maximo = resultado(0, energia_disponivel)
+    print(f"Valor máximo obtido por backtracking: {valor_maximo}\n")
+    return valor_maximo
+

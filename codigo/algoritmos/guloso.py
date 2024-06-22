@@ -1,4 +1,4 @@
-def greedy_max_value(lances, energia_disponivel):
+def guloso_maior_valor(lances, energia_disponivel):
     lances.sort(key=lambda x: x[1], reverse=True)
     total_value, total_energy = 0, 0
     for lote, valor in lances:
@@ -12,7 +12,7 @@ def greedy_max_value(lances, energia_disponivel):
 
     return total_value
 
-def greedy_max_value_per_mw(lances, energia_disponivel):
+def guloso_maior_valor_por_megawatts(lances, energia_disponivel):
     lances.sort(key=lambda x: x[1] / x[0], reverse=True)
     total_value, total_energy = 0, 0
     for lote, valor in lances:

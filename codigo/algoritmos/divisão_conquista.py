@@ -1,4 +1,4 @@
-def divide_and_conquer(lances, energia_disponivel, memo=None):
+def divisao_conquista(lances, energia_disponivel, memo=None):
     if memo is None:
         memo = {}
 
@@ -16,14 +16,14 @@ def divide_and_conquer(lances, energia_disponivel, memo=None):
     esquerda = lances[:meio]
     direita = lances[meio:]
 
-    max_esquerda = divide_and_conquer(esquerda, energia_disponivel, memo)
-    max_direita = divide_and_conquer(direita, energia_disponivel, memo)
+    max_esquerda = divisao_conquista(esquerda, energia_disponivel, memo)
+    max_direita = divisao_conquista(direita, energia_disponivel, memo)
 
     melhor_comb = 0
     for e_lote, e_valor in esquerda:
         if e_lote <= energia_disponivel:
             restante = energia_disponivel - e_lote
-            melhor_comb = max(melhor_comb, e_valor + divide_and_conquer(direita, restante, memo))
+            melhor_comb = max(melhor_comb, e_valor + divisao_conquista(direita, restante, memo))
 
     resultado = max(max_esquerda, max_direita, melhor_comb)
     memo[chave] = resultado
