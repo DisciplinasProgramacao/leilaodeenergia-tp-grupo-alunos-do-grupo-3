@@ -8,7 +8,7 @@ def greedy_max_value(lances, energia_disponivel):
 
     print(f"Executando guloso com {len(lances)} lances e {energia_disponivel} energia disponível")
     for i, lance in enumerate(lances):
-        print(f"Lance {i}: {lance[0]}, {lance[1]} reais - Valor Total: {total_value}\n")
+        print(f"Lance {i}: {lance[0]}, {lance[1]} dinheiros - Valor Total: {total_value}\n")
 
     return total_value
 
@@ -22,6 +22,6 @@ def greedy_max_value_per_mw(lances, energia_disponivel):
 
     print(f"Executando guloso com com {len(lances)} lances e {energia_disponivel} energia disponível")
     for i, lance in enumerate(lances):
-        print(f"Lance {i}: {lance[0]}, {lance[1]} reais - Valor Total: {total_value}\n")
+        print(f"Lance {i}: {lance[0]}, {lance[1]} dinheiros - Valor Total: {total_value}\n")
 
     return total_value

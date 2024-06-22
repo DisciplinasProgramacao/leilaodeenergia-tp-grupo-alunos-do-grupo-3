@@ -4,7 +4,6 @@ import time
 
 sys.setrecursionlimit(5000)  # Ajuste conforme necessário
 
-# Adicionar o diretório raiz do projeto ao sys.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from data.gerar_conjuntos import gerar_conjuntos
@@ -107,67 +106,39 @@ E25;476;2480
 
 energia_disponivel = 8000
 
-def medir_tempo_algoritmos(conjuntos, energia_disponivel):
-    resultados_guloso1 = []
-    resultados_guloso2 = []
-    tempos_guloso1 = []
-    tempos_guloso2 = []
+def medir_tempo_algoritmos(lances, energia_disponivel):
+    inicio = time.time()
+    resultado_guloso1 = greedy_max_value(lances, energia_disponivel)
+    fim = time.time()
+    tempo_guloso1 = fim - inicio
 
-    for idx, lances in enumerate(conjuntos):
-        print(f"Rodando conjunto {idx + 1} com greedy algorithms")
-        inicio = time.time()
-        resultado1 = greedy_max_value(lances, energia_disponivel)
-        fim = time.time()
-        tempos_guloso1.append(fim - inicio)
-        resultados_guloso1.append(resultado1)
+    inicio = time.time()
+    resultado_guloso2 = greedy_max_value_per_mw(lances, energia_disponivel)
+    fim = time.time()
+    tempo_guloso2 = fim - inicio
 
-        inicio = time.time()
-        resultado2 = greedy_max_value_per_mw(lances, energia_disponivel)
-        fim = time.time()
-        tempos_guloso2.append(fim - inicio)
-        resultados_guloso2.append(resultado2)
-
-    return (resultados_guloso1, tempos_guloso1), (resultados_guloso2, tempos_guloso2)
+    return (resultado_guloso1, tempo_guloso1), (resultado_guloso2, tempo_guloso2)
 
 
-def medir_tempo_backtracking(conjuntos, energia_disponivel):
-    tempos = []
-    tamanho_T = 0
-    for idx, lances in enumerate(conjuntos):
-        print(f"Rodando conjunto {idx + 1} com backtracking")
-        inicio = time.time()
-        backtracking(lances, energia_disponivel)
-        fim = time.time()
-        duracao = fim - inicio
-        tempos.append(duracao)
-        if duracao > 30:
-            break
-        tamanho_T = len(lances)
-    return tamanho_T, tempos
+def medir_tempo_backtracking(lances, energia_disponivel):
+    inicio = time.time()
+    resultado = backtracking(lances, energia_disponivel)
+    fim = time.time()
+    return resultado, fim - inicio
 
 
-def medir_tempo_dc_pd(conjuntos, energia_disponivel):
-    resultados_dc = []
-    resultados_pd = []
-    tempos_dc = []
-    tempos_pd = []
+def medir_tempo_dc_pd(lances, energia_disponivel):
+    inicio = time.time()
+    resultado_dc = divide_and_conquer(lances, energia_disponivel)
+    fim = time.time()
+    tempo_dc = fim - inicio
 
-    for idx, lances in conjuntos:
-        print(f"Rodando conjunto {idx + 1} com divisão e conquista")
-        inicio = time.time()
-        resultado_dc = divide_and_conquer(lances, energia_disponivel)
-        fim = time.time()
-        tempos_dc.append(fim - inicio)
-        resultados_dc.append(resultado_dc)
+    inicio = time.time()
+    resultado_pd = dp_solution(lances, energia_disponivel)
+    fim = time.time()
+    tempo_pd = fim - inicio
 
-        print(f"Rodando conjunto {idx + 1} com programação dinâmica")
-        inicio = time.time()
-        resultado_pd = dp_solution(lances, energia_disponivel)
-        fim = time.time()
-        tempos_pd.append(fim - inicio)
-        resultados_pd.append(resultado_pd)
-
-    return (resultados_dc, tempos_dc), (resultados_pd, tempos_pd)
+    return (resultado_dc, tempo_dc), (resultado_pd, tempo_pd)
 
 
 def main():
@@ -175,31 +146,25 @@ def main():
     conjunto_1 = ler_conjunto_empresas(conjunto_empresas_1)
     conjunto_2 = ler_conjunto_empresas(conjunto_empresas_2)
 
-    # Executar testes para o primeiro conjunto
-    print("\nExecutando testes para o conjunto de empresas interessadas 1\n")
-    conjuntos_de_teste = [conjunto_1]
-    medir_tempo_backtracking(conjuntos_de_teste, energia_disponivel)
-    
-    (resultados1, tempos1), (resultados2, tempos2) = medir_tempo_algoritmos(conjuntos_de_teste, energia_disponivel)
-    print(f'Médias dos resultados e tempos do primeiro algoritmo guloso: {sum(resultados1)/len(resultados1)}, {sum(tempos1)/len(tempos1)}')
-    print(f'Médias dos resultados e tempos do segundo algoritmo guloso: {sum(resultados2)/len(resultados2)}, {sum(tempos2)/len(tempos2)}')
+    for idx, conjunto in enumerate([conjunto_1, conjunto_2], start=1):
+        print(f"\nExecutando testes para o conjunto de empresas interessadas {idx}\n")
 
-    imprimir = medir_tempo_dc_pd(conjuntos_de_teste, energia_disponivel)
-    print(f'Médias dos resultados e tempos de divisão e conquista: {sum(imprimir[0][0])/len(imprimir[0][0])}, {sum(imprimir[0][1])/len(imprimir[0][1])}')
-    print(f'Médias dos resultados e tempos de programação dinâmica: {sum(imprimir[1][0])/len(imprimir[1][0])}, {sum(imprimir[1][1])/len(imprimir[1][1])}')
+        # Backtracking
+        resultado_backtracking, tempo_backtracking = medir_tempo_backtracking(conjunto, energia_disponivel)
+        print(f"Backtracking -> Resultado: {resultado_backtracking}, Tempo: {tempo_backtracking:.2f}s")
 
-    # Executar testes para o segundo conjunto
-    print("\nExecutando testes para o conjunto de empresas interessadas 2\n")
-    conjuntos_de_teste = [conjunto_2]
-    medir_tempo_backtracking(conjuntos_de_teste, energia_disponivel)
-    
-    (resultados1, tempos1), (resultados2, tempos2) = medir_tempo_algoritmos(conjuntos_de_teste, energia_disponivel)
-    print(f'Médias dos resultados e tempos do primeiro algoritmo guloso: {sum(resultados1)/len(resultados1)}, {sum(tempos1)/len(tempos1)}')
-    print(f'Médias dos resultados e tempos do segundo algoritmo guloso: {sum(resultados2)/len(resultados2)}, {sum(tempos2)/len(tempos2)}')
+        # Algoritmos Gulosos
+        (resultado_guloso1, tempo_guloso1), (resultado_guloso2, tempo_guloso2) = medir_tempo_algoritmos(conjunto, energia_disponivel)
+        print(f"Guloso (Maior Valor) -> Resultado: {resultado_guloso1}, Tempo: {tempo_guloso1:.2f}s")
+        print(f"Guloso (Maior Valor por MW) -> Resultado: {resultado_guloso2}, Tempo: {tempo_guloso2:.2f}s")
 
-    imprimir = medir_tempo_dc_pd(conjuntos_de_teste, energia_disponivel)
-    print(f'Médias dos resultados e tempos de divisão e conquista: {sum(imprimir[0][0])/len(imprimir[0][0])}, {sum(imprimir[0][1])/len(imprimir[0][1])}')
-    print(f'Médias dos resultados e tempos de programação dinâmica: {sum(imprimir[1][0])/len(imprimir[1][0])}, {sum(imprimir[1][1])/len(imprimir[1][1])}')
+        # Divisão e Conquista e Programação Dinamica
+        (resultado_dc, tempo_dc), (resultado_pd, tempo_pd) = medir_tempo_dc_pd(conjunto, energia_disponivel)
+        print(f"Divisão e Conquista -> Resultado: {resultado_dc}, Tempo: {tempo_dc:.2f}s")
+        print(f"Programação Dinâmica -> Resultado: {resultado_pd}, Tempo: {tempo_pd:.2f}s")
+
+    # Adicionando a mensagem de conclusão dos testes
+    print("\nTodos os testes foram concluídos com sucesso!\n")
 
 
 if __name__ == "__main__":

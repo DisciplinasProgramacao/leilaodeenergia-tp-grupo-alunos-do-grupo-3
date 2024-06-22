@@ -6,7 +6,7 @@ def dp_solution(lances, energia_disponivel):
     
     print(f"Executando programação dinamica com {len(lances)} lances e {energia_disponivel} energia disponível")
     for i, lance in enumerate(lances):
-        print(f"Lance {i}: {lance[0]}, {lance[1]} reais")
+        print(f"Lance {i}: {lance[0]}, {lance[1]} dinheiros")
 
     resultado = dp[energia_disponivel]
     print(f"Programação Dinâmica - Valor Total: {resultado}\n")
