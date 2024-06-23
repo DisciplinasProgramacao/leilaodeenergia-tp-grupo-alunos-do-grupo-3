@@ -8,9 +8,7 @@ Este projeto visa resolver o problema de maximizar os lucros da venda de energia
 
 ## Alunos integrantes da equipe
 
-* Ian Asenjo Dominguez Cunha
 * Laura Lourdes Coutinho Rodrigues
-* Marcio Lucas Machado Pereira
 * Pedro de Sousa Motta
 
 ## Professor responsável
