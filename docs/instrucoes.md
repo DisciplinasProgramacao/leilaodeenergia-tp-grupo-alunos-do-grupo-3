@@ -3,7 +3,9 @@
 Versão do Phyton: 3.11
 
 Conjunto de testes:
+
 Empresa;Coluna1;Coluna2
+
 E1;430;1043
 E2;428;1188
 E3;410;1565
@@ -31,6 +33,7 @@ E24;387;1280
 E25;417;1330
 
 Empresa;Coluna1;Coluna2
+
 E1;313;1496
 E2;398;1768
 E3;240;1210
