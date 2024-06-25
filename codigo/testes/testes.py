@@ -137,10 +137,15 @@ def main():
 
     conjunto_empresas_1 = ler_conjunto_empresas('conjunto_empresas_1.csv')
     conjunto_empresas_2 = ler_conjunto_empresas('conjunto_empresas_2.csv')
+    conjunto_empresas_aleatorias_1 = ler_conjunto_empresas('conjunto_empresas_aleatorias_1.csv')
+    conjunto_empresas_aleatorias_2 = ler_conjunto_empresas('conjunto_empresas_aleatorias_2.csv')
+    conjunto_empresas_aleatorias_3 = ler_conjunto_empresas('conjunto_empresas_aleatorias_3.csv')
+    conjunto_empresas_aleatorias_4 = ler_conjunto_empresas('conjunto_empresas_aleatorias_4.csv')
+
 
     resultados = {}
 
-    for idx, conjunto in enumerate([conjunto_empresas_1, conjunto_empresas_2], start=1):
+    for idx, conjunto in enumerate([conjunto_empresas_1, conjunto_empresas_2, conjunto_empresas_aleatorias_1, conjunto_empresas_aleatorias_2, conjunto_empresas_aleatorias_3, conjunto_empresas_aleatorias_4], start=1):
         conjunto_nome = f"Conjunto {idx}"
         resultados[conjunto_nome] = {}
 
